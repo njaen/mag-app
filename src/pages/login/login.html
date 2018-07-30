@@ -1,0 +1,76 @@
+<!-- -->
+<ion-content padding class="animated fadeIn login auth-page">
+  <div class="login-content">
+
+    <!-- Logo -->
+    <div padding-horizontal text-center class="animated fadeInDown">
+      <div class="logo"></div>
+      
+    </div>
+
+    <!-- Login form -->
+    <form class="list-form" (ngSubmit)="login()" #loginForm="ngForm">
+      <ion-item>
+        <ion-label floating>
+          <ion-icon name="mail" item-start class="text-primary"></ion-icon>
+          Correo MAG
+        </ion-label>
+        <ion-input type="email" [(ngModel)]="registerCredentials.email" name="email" value="njaen@rotmarketing.com" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>
+          <ion-icon name="lock" item-start class="text-primary"></ion-icon>
+          Contraseña
+        </ion-label>
+        <ion-input type="password" [(ngModel)]="registerCredentials.password" name="password" value="nadieska" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <button ion-button class="submit-btn" full type="submit" [disabled]="!loginForm.form.valid"  icon-start block color="dark" tappable>
+        <ion-icon name="log-in"></ion-icon>
+        ENTRAR
+      </button>
+      </ion-item>
+    </form>
+
+    <!-- <p text-right ion-text color="secondary" tappable (click)="forgotPass()"><strong>¿Has olvidado tu contraseña?</strong></p>
+
+    <div>
+        <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid"  icon-start block color="dark" tappable>
+        <ion-icon name="log-in"></ion-icon>
+        ENTRAR
+      </button>
+
+       <p text-center ion-text color="secondary">Or Sign in with:</p>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col col-4>
+            <button ion-button icon-only block class="btn-facebook">
+              <ion-icon name="logo-facebook"></ion-icon>
+            </button>
+          </ion-col>
+          <ion-col col-4>
+            <button ion-button icon-only block class="btn-twitter">
+              <ion-icon name="logo-twitter"></ion-icon>
+            </button>
+          </ion-col>
+          <ion-col col-4>
+            <button ion-button icon-only block class="btn-gplus">
+              <ion-icon name="logo-googleplus"></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row> 
+      </ion-grid>
+
+    </div> -->
+
+
+    <!-- Other links -->
+   <!--  <div text-center margin-top>
+      <span ion-text color="secondary" tappable (click)="register()">New here? <strong>Sign up</strong></span>
+    </div> -->
+
+  </div>
+</ion-content>

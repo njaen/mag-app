@@ -1,0 +1,65 @@
+<!-- -->
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      <strong>MAG</strong> Sistema de Alertas Tempranas
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button tappable (click)="presentNotifications($event)">
+        <ion-icon name="notifications"></ion-icon>
+      </button>
+      <button ion-button tappable (click)="goToAccount()">
+        <ion-icon name="cog"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="animated fadeIn common-bg">
+
+  <!-- <ion-card no-margin margin-bottom class="full-width">
+    <ion-item tappable (click)="choosePlace('from')" class="border-bottom">
+      <ion-icon name="search" color="primary" item-left></ion-icon>
+      <span>{{ search.name }}</span>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="md-calendar" color="primary" item-left></ion-icon>
+      <ion-datetime class="no-pl" displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY" [(ngModel)]="search.date"></ion-datetime>
+    </ion-item>
+  </ion-card>
+
+  <button ion-button icon-start block no-margin color="primary" class="round" tappable (click)="doSearch()">
+    <ion-icon name="search"></ion-icon> Search
+  </button> -->
+
+
+  <ion-card>
+
+    <ion-card-content>
+      <ion-card-title>
+        Alertas pendientes
+      </ion-card-title>
+      <p>
+        Alertas guardadas en el dispositivo que aun no han sido envidas para su notificación al servidor.
+      </p>
+    </ion-card-content>
+
+   <ion-list>
+    <ion-item *ngFor="let usuario of usuarios">
+      <ion-avatar item-start>
+        <img [src]="usuario.picture.medium">
+      </ion-avatar>
+      <h2>{{ usuario.name.first }}</h2>
+      <p>{{ usuario.email }}</p>
+    </ion-item>
+  </ion-list>
+  
+</ion-card>
+
+<button ion-button icon-end full color="danger" [disabled]="usuarios?.length > 0">Enviar Todas las Alertas  <ion-icon name="ios-send"></ion-icon></button>
+
+
+</ion-content>
