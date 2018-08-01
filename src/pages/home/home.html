@@ -59,7 +59,7 @@
   
 </ion-card>
 
-<button ion-button icon-end full color="danger" [disabled]="usuarios?.length > 0">Enviar Todas las Alertas  <ion-icon name="ios-send"></ion-icon></button>
+<button ion-button icon-end full (click)="openAlertNewTask()" color="danger" [disabled]="usuarios?.length > 0">Enviar Todas las Alertas  <ion-icon name="ios-send"></ion-icon></button>
 
 
 </ion-content>

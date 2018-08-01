@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {NavController, PopoverController} from "ionic-angular";
+import {NavController, PopoverController, AlertController} from "ionic-angular";
 import {Storage} from '@ionic/storage';
 
 import {NotificationsPage} from "../notifications/notifications";
@@ -8,6 +8,8 @@ import {TripsPage} from "../trips/trips";
 import {SearchLocationPage} from "../search-location/search-location";
 
 import { HttpProvider } from '../../providers/http/http';
+
+import { MagAlertsServiceProvider } from '../../providers/mag-alerts-service/mag-alerts-service';
 
 
 @Component({
@@ -23,10 +25,17 @@ export class HomePage {
   }
 
   usuarios : any[];
-  
+  alertas: any[] = [];
 
-  constructor(private storage: Storage, public nav: NavController, public popoverCtrl: PopoverController, 
-    public http: HttpProvider) {
+  constructor(
+    private storage: Storage,
+    public nav: NavController, 
+    public popoverCtrl: PopoverController, 
+    public http: HttpProvider,
+    public alertCtrl: AlertController,
+    public navCtrl: NavController,
+    public tasksService: MagAlertsServiceProvider
+    ) {
   }
 
   ionViewWillEnter() {
@@ -76,6 +85,42 @@ export class HomePage {
       }
     )
   }
+
+
+  openAlertNewTask(){
+  let alert = this.alertCtrl.create({
+    title: 'Crear tarea',
+    message: 'escribe el nombre de la tarea',
+    inputs: [
+      {
+        name: 'title',
+        placeholder: 'Digitar nueva tarea.',
+      }
+    ],
+    buttons: [
+      {
+        text: 'Cancelar',
+        handler: () =>{
+          console.log('cancelar');
+        }
+      },
+      {
+        text: 'Crear',
+        handler: (data)=>{ 
+          data.completed = false;
+          this.tasksService.create(data)
+          .then(response => {
+            this.alertas.unshift( data );
+          })
+          .catch( error => {
+            console.error( error );
+          })
+        }
+      }
+    ]
+  });
+  alert.present();
+}
 
 }
 

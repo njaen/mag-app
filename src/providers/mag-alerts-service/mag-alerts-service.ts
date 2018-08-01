@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SQLiteObject } from '@ionic-native/sqlite';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
@@ -12,7 +12,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class MagAlertsServiceProvider {
 
-  db: SQLiteObject = null;
+  db: SQLiteObject;
 
   constructor() {}
 

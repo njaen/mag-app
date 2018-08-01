@@ -3,7 +3,7 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>Local Weather</ion-title>
+        <ion-title>Generar Nueva Alerta</ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -12,7 +12,7 @@
     <ion-card-content no-padding>
 
       <ion-item>
-        <ion-label class="text-1x bold">Select Local</ion-label>
+        <ion-label class="text-1x bold">Tipo de Alerta</ion-label>
         <ion-select [(ngModel)]="location" (ionChange)="getWeather(location)">
           <ion-option *ngFor="let location of locationList" [value]="location">{{ location.city }}</ion-option>
         </ion-select>

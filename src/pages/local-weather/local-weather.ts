@@ -19,7 +19,8 @@ export class LocalWeatherPage {
     {city: 'Los Angeles', state: 'CA'},
     {city: 'Miami', state: 'FL'},
     {city: 'New York', state: 'NY'},
-    {city: 'Seattle', state: 'WA'}
+    {city: 'Seattle', state: 'WA'},
+    {city: 'Managua', state: 'MGA'}
   ]
 
   constructor(
