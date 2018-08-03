@@ -22,11 +22,42 @@ export class MagAlertsServiceProvider {
     }
   }
 
-  createTable(){
-	  let sql = 'CREATE TABLE IF NOT EXISTS alertas(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, completed INTEGER)';
-	  	return this.db.executeSql(sql, []);
+  createTables(){
+	  let sqlAlertas = 'CREATE TABLE IF NOT EXISTS alertas(' + 
+		  'id INTEGER PRIMARY KEY AUTOINCREMENT, ' + 
+		  'userid INTEGER, ' + 
+		  'titulo TEXT, ' +
+		  'tipo INTEGER, ' +
+		  'datos TEXT ' + 
+		  'status INTEGER ' +
+		  'creacion VARCHAR' +
+		  'entrega VARCHAR' + 
+		')';
+	  this.db.executeSql(sqlAlertas, []);
+
+	  let sqlSessions = 'CREATE TABLE IF NOT EXISTS sessions(' + 
+		  'sessionid TEXT PRIMARY KEY, ' + 
+		  'userid INTEGER, ' + 
+		  'nombres TEXT, ' +
+		  'apellidos TEXT, ' +
+		  'finalizacion VARCHAR' + 
+		  'activa INTEGER' + 
+		')';
+	  this.db.executeSql(sqlSessions, []);
 	}
 
+	getCurrentSession(){
+		let sql = 'SELECT * FROM sessions WHERE activa = 1';
+	  return this.db.executeSql(sql, [])
+	  .then(response => {
+	    let session = [];
+	    for (let index = 0; index < response.rows.length; index++) {
+	      session.push( response.rows.item(index) );
+	    }
+	    return Promise.resolve( session );
+	  })
+	  .catch(error => Promise.reject(error));
+	}
 
 	getAll(){
 	  let sql = 'SELECT * FROM alertas';

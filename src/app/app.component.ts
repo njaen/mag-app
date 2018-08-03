@@ -10,7 +10,8 @@ import { LoginPage } from "../pages/login/login";
 import { LocalWeatherPage } from "../pages/local-weather/local-weather";
 
 import { Storage } from '@ionic/storage';
-import { SQLite } from '@ionic-native/sqlite';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+
 
 import { MagAlertsServiceProvider } from '../providers/mag-alerts-service/mag-alerts-service';
 
@@ -39,7 +40,8 @@ export class MyApp {
     public splashScreen: SplashScreen,
     public keyboard: Keyboard,
     public alertsService: MagAlertsServiceProvider,
-    public sqlite: SQLite
+    public sqlite: SQLite,
+    public dbobj: SQLiteObject
   ) {
     this.initializeApp();
 
@@ -61,7 +63,7 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
 
       //*** Control Splash Screen
-      // this.splashScreen.show();
+       this.splashScreen.show();
       // this.splashScreen.hide();
 
       //*** Control Status Bar
@@ -71,7 +73,65 @@ export class MyApp {
       //*** Control Keyboard
       this.keyboard.disableScroll(true);
 
-      this.createDatabase();
+      //this.createDatabase();
+
+      this.sqlite.create({
+        name: "data.db",
+         location: "default"
+      }).then(() => {
+        let s1 = this.dbobj.executeSql('CREATE TABLE IF NOT EXISTS alertas(' + 
+                'id INTEGER PRIMARY KEY AUTOINCREMENT, ' + 
+                'userid INTEGER, ' + 
+                'titulo TEXT, ' +
+                'tipo INTEGER, ' +
+                'datos TEXT ' + 
+                'status INTEGER ' +
+                'creacion VARCHAR' +
+                'entrega VARCHAR' + 
+              ')').then((data) => {
+          console.log("Alertas TABLE CREATED: ", data);
+         }, (error) => {
+           console.error("Alertas Unable to execute sql", error);
+         });
+
+         let s2 = this.dbobj.executeSql('CREATE TABLE IF NOT EXISTS sessions(' + 
+              'sessionid TEXT PRIMARY KEY, ' + 
+              'userid INTEGER, ' + 
+              'nombres TEXT, ' +
+              'apellidos TEXT, ' +
+              'finalizacion VARCHAR' + 
+              'activa INTEGER' + 
+            ')').then((data) => {
+              console.log("Alertas TABLE CREATED: ", data);
+           }, (error) => {
+               console.error("Alertas Unable to execute sql", error);
+           });
+
+           let s3 =  this.dbobj.executeSql('SELECT TOP 1 FROM sessions WHERE activa=1').then((data) => {
+              console.log("Session selected: ", data);
+              let session = [];
+              if(data.rows.length>0){
+                session.push(data.rows.item(0));
+                this.splashScreen.hide();
+                this.rootPage = 'HomePage';
+              }else{
+                session = null;
+                this.splashScreen.hide();
+                this.rootPage = 'LoginPage';
+              }
+           }, (error) => {
+               console.error("Current Session Unable to execute sql", error);
+           });
+
+
+           return Promise.all([s1,s2,s3]);
+
+       }, (error) => {
+               console.error("Error el base de datos", error);
+        });
+
+      //
+
     });
   }
 
@@ -84,26 +144,6 @@ export class MyApp {
   logout() {
     //this.storage.clear();
     this.nav.setRoot(LoginPage);
-  }
-
-   private createDatabase(){
-    this.sqlite.create({
-      name: 'data.db',
-      location: 'default' // the location field is required
-    })
-    .then((db) => {
-      this.alertsService.setDatabase(db);
-      return this.alertsService.createTable();
-    })
-    .then(() =>{
-      this.splashScreen.hide();
-      this.rootPage = 'HomePage';
-    })
-    .catch(error =>{
-      console.error(error);
-    });
-  }
-
-  
+  }  
 
 }
